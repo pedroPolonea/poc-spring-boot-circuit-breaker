@@ -3,7 +3,6 @@ package com.sb.cb.service.impl;
 import com.sb.cb.client.ProductClient;
 import com.sb.cb.record.ProductRecord;
 import com.sb.cb.service.ProductService;
-import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
@@ -41,7 +40,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Retry(name = "get", fallbackMethod = "fallbackRetry")
+    @Retry(name = "get-retry", fallbackMethod = "fallbackRetry")
     public ProductRecord getByIdRetry(Long id) {
         log.info("M=getByIdRetry, id={}", id);
         final ProductRecord productRecord = productClient.getById(id);
@@ -50,7 +49,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Bulkhead(name = "get", type = Bulkhead.Type.SEMAPHORE, fallbackMethod = "fallbackBulkhead")
+    // @Bulkhead(name = "get", type = Bulkhead.Type.SEMAPHORE, fallbackMethod = "fallbackBulkhead")
     public ProductRecord getByIdBulkhead(Long id) {
         log.info("M=getByIdBulkhead, id={}", id);
         try {

@@ -1,8 +1,5 @@
-server:
-  port: 8082
-
 product.client:
-  url: http://localhost:8081
+  url: http://localhost:9561
 
 management:
   endpoints:
@@ -41,22 +38,9 @@ resilience4j.ratelimiter:
 
 resilience4j.retry:
   instances:
-#    ratingService:
-#      maxRetryAttempts: 3
-#      waitDuration: 5s
-#      retryExceptions:
-#        - org.springframework.web.client.HttpServerErrorException
-#      ignoreExceptions:
-#        - org.springframework.web.client.HttpClientErrorException
     get-retry:
       maxRetryAttempts: 3
       waitDuration: 10s
       retryExceptions:
         - org.springframework.web.client.HttpServerErrorException
         - java.io.IOException
-
-#resilience4j.bulkhead:
-#  instances:
-#    get:
-#      max-concurrent-calls: 10
-#      maxWaitDuration: 10ms

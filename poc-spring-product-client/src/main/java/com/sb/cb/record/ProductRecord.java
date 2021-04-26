@@ -2,6 +2,7 @@ package com.sb.cb.record;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
 public record ProductRecord(
         @JsonProperty("id") Long id,
         @JsonProperty("name") String name,

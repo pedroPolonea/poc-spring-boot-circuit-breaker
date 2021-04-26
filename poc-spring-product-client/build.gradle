@@ -20,6 +20,8 @@ repositories {
 ext {
 	set('springCloudVersion', "2020.0.2")
 	set('swaggerVersion', "2.9.2")
+	set('restAssuredVersion', "4.3.3")
+	set("groovy.version", "3.0.3")
 }
 
 dependencies {
@@ -30,10 +32,25 @@ dependencies {
 
 	implementation group: 'io.springfox', name: 'springfox-swagger2', version: "$swaggerVersion"
 	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: "$swaggerVersion"
+	implementation 'com.github.javafaker:javafaker:1.0.2'
+
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+
+	testImplementation group: 'io.rest-assured', name: 'xml-path', version: "$restAssuredVersion"
+	testImplementation group: 'io.rest-assured', name: 'json-path', version: "$restAssuredVersion"
+	testImplementation (group: 'io.rest-assured', name: 'rest-assured', version: "$restAssuredVersion"){
+		exclude group: 'com.sun.xml.bind', module: 'jaxb-osgi'
+	}
+
+
+	testImplementation ('com.github.tomakehurst:wiremock-standalone:2.27.2')
+
+
 }
 
 dependencyManagement {
@@ -45,3 +62,5 @@ dependencyManagement {
 test {
 	useJUnitPlatform()
 }
+
+
