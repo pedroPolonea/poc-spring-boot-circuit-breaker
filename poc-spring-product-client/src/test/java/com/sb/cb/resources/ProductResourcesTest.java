@@ -2,11 +2,11 @@ package com.sb.cb.resources;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.javafaker.Faker;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.sb.cb.config.RestAssureConf;
 import com.sb.cb.config.WireMockConfig;
+import com.sb.cb.factory.ProductFactory;
 import com.sb.cb.record.ProductRecord;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -17,6 +17,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+import static com.sb.cb.factory.ProductFactory.createProduct;
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.http.HttpStatus.OK;
@@ -27,8 +28,6 @@ import static org.springframework.http.HttpStatus.OK;
 class ProductResourcesTest  extends RestAssureConf {
 
     private static String URL_PRODUCT = "/products/1";
-
-    private static Faker faker = new Faker();
 
     @Autowired
     private WireMockServer wireMockServer;
@@ -57,16 +56,6 @@ class ProductResourcesTest  extends RestAssureConf {
         assertEquals(productRecord.amount(), newProductRecord.amount());
         assertEquals(productRecord.description(), newProductRecord.description());
 
-    }
-
-    private ProductRecord createProduct() {
-        return new ProductRecord(
-                1L,
-                faker.gameOfThrones().character(),
-                faker.chuckNorris().fact(),
-                faker.random().nextInt(1, 100),
-                faker.random().nextBoolean()
-        );
     }
 
     private void createStubGetOk(final Object object, final String url, final int fixedDelay) {

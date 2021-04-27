@@ -31,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @RateLimiter(name = "products-get-id", fallbackMethod = "fallbackForRatelimitGetById")
+    @RateLimiter(name = "products-get-ratelimiter", fallbackMethod = "fallbackForRatelimitGetById")
     public ProductRecord getByIdRateLimiter(Long id) {
         log.info("M=getByIdRateLimiter, id={}", id);
         final ProductRecord productRecord = productClient.getById(id);

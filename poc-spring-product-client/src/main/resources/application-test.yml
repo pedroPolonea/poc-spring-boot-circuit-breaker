@@ -31,10 +31,10 @@ resilience4j.circuitbreaker:
 
 resilience4j.ratelimiter:
   instances:
-    products-get-id:
+    products-get-ratelimiter:
       limitForPeriod: 5
-      limitRefreshPeriod: 10000 #ms
-      timeoutDuration: 1000ms
+      limitRefreshPeriod: 1s #ms
+      timeoutDuration: 0
 
 resilience4j.retry:
   instances:
